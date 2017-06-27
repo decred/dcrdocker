@@ -1,0 +1,46 @@
+#DOCKER_IMAGE_TAG=dcrd-mainnet
+#mkdir .dcrd
+#docker run -d --network=host -P -v $(pwd)/.dcrd/:/home/decred/.dcrd/ decred/$DOCKER_IMAGE_TAG
+
+FROM ubuntu:xenial
+
+LABEL description="Decrediton mainnet daemon image"
+LABEL version="1.0"
+LABEL maintainer "john@netpurgatory.com"
+
+ENV DCRD_RELEASE v1.0.5
+
+ENV TERM linux
+ENV USER decred
+
+# create user
+RUN adduser --disabled-password --gecos '' $USER
+
+# update base distro & install build tooling
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && \
+    apt-get install -qy curl
+
+# switch user
+USER $USER
+WORKDIR /home/$USER
+ENV HOME /home/$USER
+ENV DOTDCRD $HOME/.dcrd
+
+RUN mkdir -p $DOTDCRD && \
+    chown $USER $DOTDCRD
+
+# Download dcrd
+ENV DCRD_RELEASE_FILE decred-linux-amd64-$DCRD_RELEASE
+ENV DCRD_RELEASE_URL https://github.com/decred/decred-binaries/releases/download/$DCRD_RELEASE/$DCRD_RELEASE_FILE.tar.gz
+
+RUN curl -L $DCRD_RELEASE_URL | tar xvz && \
+    mv $DCRD_RELEASE_FILE/dcrd .
+
+CMD ./dcrd -u user -P pass --notls --txindex
+
+# PEER PORT
+EXPOSE 9108
+# RPC PORT
+EXPOSE 9109

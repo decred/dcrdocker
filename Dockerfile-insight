@@ -1,0 +1,53 @@
+#DOCKER_IMAGE_TAG=decred-insight
+#mkdir -p .insight
+#docker run -d --network=host -P -v $(pwd)/.insight/:/home/insight/.insight/ decred/$DOCKER_IMAGE_TAG
+
+FROM debian:sid
+
+LABEL description="Decrediton insight image"
+LABEL version="1.0"
+LABEL maintainer "john@netpurgatory.com"
+
+ENV NODE_VERSION v0.10.40
+
+ENV TERM linux
+ENV USER insight
+
+# create user
+RUN adduser --disabled-password --gecos '' $USER
+
+# update base distro & install build tooling
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && \
+    apt-get install -qy build-essential python git curl
+
+# switch user
+USER $USER
+WORKDIR /home/$USER
+ENV HOME /home/$USER
+ENV NVM_DIR $HOME/.nvm
+
+# install nodejs
+RUN git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags` && \
+    . ~/.nvm/nvm.sh && \
+    nvm install $NODE_VERSION && \
+    nvm use $NODE_VERSION
+
+RUN echo '. $HOME/.nvm/nvm.sh' >> ~/.bashrc
+
+# install insight
+RUN git clone https://github.com/decred/insight.git && \
+    cd insight && \
+    . ~/.nvm/nvm.sh && \
+    npm install
+
+WORKDIR insight
+
+ENV BITCOIND_USER user
+ENV BITCOIND_PASS pass
+ENV INSIGHT_NETWORK dcrdlivenet
+ENV LOGGER_LEVEL debug
+CMD  . ~/.nvm/nvm.sh && npm start
+
+EXPOSE 3003
