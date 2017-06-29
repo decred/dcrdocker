@@ -47,7 +47,7 @@ WORKDIR insight
 ENV BITCOIND_USER user
 ENV BITCOIND_PASS pass
 ENV INSIGHT_NETWORK dcrdlivenet
-ENV LOGGER_LEVEL debug
+ENV LOGGER_LEVEL error
 CMD  . ~/.nvm/nvm.sh && npm start
 
 EXPOSE 3003
