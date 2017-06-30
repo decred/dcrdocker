@@ -4,7 +4,7 @@
 
 FROM ubuntu:xenial
 
-LABEL description="Decrediton mainnet daemon image"
+LABEL description="Decred mainnet daemon"
 LABEL version="1.1"
 LABEL maintainer "john@netpurgatory.com"
 
@@ -38,9 +38,9 @@ ENV DCRD_RELEASE_URL https://github.com/decred/decred-binaries/releases/download
 RUN curl -L $DCRD_RELEASE_URL | tar xvz && \
     mv $DCRD_RELEASE_FILE/dcrd .
 
-CMD ./dcrd -u user -P pass --notls --txindex --listen=127.0.0.1
-
 # PEER PORT
 EXPOSE 9108
 # RPC PORT
 EXPOSE 9109
+
+CMD ./dcrd -u user -P pass --notls --txindex --listen=127.0.0.1

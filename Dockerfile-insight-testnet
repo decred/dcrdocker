@@ -1,0 +1,11 @@
+#DOCKER_IMAGE_TAG=decred-insight-testnet
+FROM decred/decred-insight
+
+LABEL description="Decred testnet insight"
+LABEL version="1.0"
+LABEL maintainer "john@netpurgatory.com"
+
+EXPOSE 3004
+
+ENV INSIGHT_NETWORK dcrdtestnet
+CMD . ~/.nvm/nvm.sh && npm start

@@ -5,7 +5,7 @@
 FROM debian:sid
 
 LABEL description="Decrediton insight image"
-LABEL version="1.1"
+LABEL version="1.0"
 LABEL maintainer "john@netpurgatory.com"
 
 ENV NODE_VERSION v0.10.40
@@ -46,10 +46,11 @@ RUN git clone https://github.com/decred/insight.git && \
 
 WORKDIR insight
 
+EXPOSE 3003
+
 ENV BITCOIND_USER user
 ENV BITCOIND_PASS pass
 ENV INSIGHT_NETWORK dcrdlivenet
 ENV LOGGER_LEVEL error
-CMD  . ~/.nvm/nvm.sh && npm start
 
-EXPOSE 3003
+CMD  . ~/.nvm/nvm.sh && npm start

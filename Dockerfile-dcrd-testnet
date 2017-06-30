@@ -1,0 +1,13 @@
+#DOCKER_IMAGE_TAG=dcrd-testnet
+FROM decred/dcrd-mainnet
+
+LABEL description="Decred testnet daemon"
+LABEL version="1.0"
+LABEL maintainer "john@netpurgatory.com"
+
+# PEER PORT
+EXPOSE 19108
+# RPC PORT
+EXPOSE 19109
+
+CMD ./dcrd --testnet -u user -P pass --notls --txindex --listen=127.0.0.1
