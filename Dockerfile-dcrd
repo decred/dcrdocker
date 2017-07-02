@@ -4,21 +4,21 @@
 
 FROM ubuntu:xenial
 
-LABEL description="Decred mainnet daemon"
-LABEL version="1.2"
-LABEL maintainer "john@netpurgatory.com"
+LABEL description="Decred mainnet daemon" \
+      version="1.2" \
+      maintainer="john@netpurgatory.com"
 
-ENV DCR_RELEASE v1.0.5
-
-ENV TERM linux
-ENV USER decred
-ENV HOME /home/$USER
-ENV DOTDCRD $HOME/.dcrd
+ENV DCR_RELEASE="v1.0.5" \
+    TERM="linux" \
+    USER="decred" \
+    HOME="/home/decred" \
+    DOTDCRD="/home/decred/.dcrd"
 
 # create user
 RUN adduser --disabled-password --gecos '' $USER
 
-RUN \
+RUN set -x && \
+
     # Update base distro & install build tooling
     DEBIAN_FRONTEND=noninteractive && \
     BUILD_DEPS=curl && \
@@ -52,7 +52,7 @@ RUN \
     chown -R $USER.$USER $HOME && \
 
     # Cleanup
-    apt-get -y remove $BUILD_DEPS && \
+    apt-get -qy remove $BUILD_DEPS && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -60,9 +60,7 @@ RUN \
 USER $USER
 WORKDIR /home/$USER
 
-# PEER PORT
-EXPOSE 9108
-# RPC PORT
-EXPOSE 9109
+# PEER & RPC PORTS
+EXPOSE 9108 9109
 
 CMD ./dcrd -u user -P pass --notls --txindex --listen=127.0.0.1
