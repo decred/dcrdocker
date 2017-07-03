@@ -5,42 +5,62 @@
 FROM ubuntu:xenial
 
 LABEL description="Decred mainnet daemon"
-LABEL version="1.1"
-LABEL maintainer "john@netpurgatory.com"
+LABEL version="1.2"
+LABEL maintainer="john@netpurgatory.com"
 
-ENV DCRD_RELEASE v1.0.5
-
+ENV DCR_RELEASE v1.0.5
 ENV TERM linux
 ENV USER decred
+ENV HOME /home/$USER
+ENV DOTDCRD $HOME/.dcrd
 
 # create user
 RUN adduser --disabled-password --gecos '' $USER
 
-# update base distro & install build tooling
-ENV DEBIAN_FRONTEND noninteractive
+RUN set -x && \
 
-RUN apt-get update && \
-    apt-get install -qy curl
+    # Update base distro & install build tooling
+    DEBIAN_FRONTEND=noninteractive && \
+    BUILD_DEPS=curl && \
+    apt-get update && \
+    apt-get install -qy $BUILD_DEPS && \
 
-# switch user
+    # Decred release url and files
+    DCR_RELEASE_URL="https://github.com/decred/decred-binaries/releases/download/$DCR_RELEASE" && \
+    DCR_MANIFEST_FILE="manifest-$DCR_RELEASE.txt" && \
+    DCR_RELEASE_NAME="decred-linux-amd64-$DCR_RELEASE" && \
+    DCR_RELEASE_FILE="$DCR_RELEASE_NAME.tar.gz" && \
+
+    # Import Decred gpg key
+    gpg --keyserver pgp.mit.edu --recv-keys 0x518A031D && \
+
+    # Download archives
+    cd /tmp && \
+    curl -SLO $DCR_RELEASE_URL/$DCR_RELEASE_FILE && \
+    curl -SLO $DCR_RELEASE_URL/$DCR_MANIFEST_FILE && \
+    curl -SLO $DCR_RELEASE_URL/$DCR_MANIFEST_FILE.asc && \
+
+    # Verify signature and hash
+    gpg --verify --trust-model=always $DCR_MANIFEST_FILE.asc && \
+    grep "$DCR_RELEASE_FILE" $DCR_MANIFEST_FILE | sha256sum -c - && \
+    rm -R $HOME/.gnupg && \
+
+    # Extract and install
+    tar xvzf $DCR_RELEASE_FILE && \
+    mv $DCR_RELEASE_NAME/dcrd $HOME && \
+    mkdir -p $DOTDCRD && \
+    chown -R $USER.$USER $HOME && \
+
+    # Cleanup
+    apt-get -qy remove $BUILD_DEPS && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# switch user for runtime
 USER $USER
 WORKDIR /home/$USER
-ENV HOME /home/$USER
-ENV DOTDCRD $HOME/.dcrd
 
-RUN mkdir -p $DOTDCRD && \
-    chown $USER $DOTDCRD
-
-# Download dcrd
-ENV DCRD_RELEASE_FILE decred-linux-amd64-$DCRD_RELEASE
-ENV DCRD_RELEASE_URL https://github.com/decred/decred-binaries/releases/download/$DCRD_RELEASE/$DCRD_RELEASE_FILE.tar.gz
-
-RUN curl -L $DCRD_RELEASE_URL | tar xvz && \
-    mv $DCRD_RELEASE_FILE/dcrd .
-
-# PEER PORT
-EXPOSE 9108
-# RPC PORT
-EXPOSE 9109
+# PEER & RPC PORTS
+EXPOSE 9108 9109
 
 CMD ./dcrd -u user -P pass --notls --txindex --listen=127.0.0.1
