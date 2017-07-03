@@ -4,15 +4,15 @@
 
 FROM ubuntu:xenial
 
-LABEL description="Decred mainnet daemon" \
-      version="1.2" \
-      maintainer="john@netpurgatory.com"
+LABEL description="Decred mainnet daemon"
+LABEL version="1.2"
+LABEL maintainer="john@netpurgatory.com"
 
-ENV DCR_RELEASE="v1.0.5" \
-    TERM="linux" \
-    USER="decred" \
-    HOME="/home/decred" \
-    DOTDCRD="/home/decred/.dcrd"
+ENV DCR_RELEASE v1.0.5
+ENV TERM linux
+ENV USER decred
+ENV HOME /home/$USER
+ENV DOTDCRD $HOME/.dcrd
 
 # create user
 RUN adduser --disabled-password --gecos '' $USER
