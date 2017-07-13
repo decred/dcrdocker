@@ -1,0 +1,8 @@
+#DOCKER_IMAGE_TAG=dcrd-testnet-insight
+FROM decred/dcrd-testnet-insight
+
+LABEL description="Decred testnet daemon (insight options)"
+LABEL version="1.0"
+LABEL maintainer "john@netpurgatory.com"
+
+CMD ./dcrd --testnet -u user -P pass --notls --txindex --listen=127.0.0.1

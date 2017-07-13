@@ -1,0 +1,8 @@
+#DOCKER_IMAGE_TAG=dcrd-mainnet-insight
+FROM decred/dcrd-mainnet-insight
+
+LABEL description="Decred mainnet daemon (insight options)"
+LABEL version="1.0"
+LABEL maintainer "john@netpurgatory.com"
+
+CMD ./dcrd -u user -P pass --notls --txindex --listen=127.0.0.1
