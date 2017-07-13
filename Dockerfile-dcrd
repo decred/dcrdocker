@@ -63,4 +63,4 @@ WORKDIR /home/$USER
 # PEER & RPC PORTS
 EXPOSE 9108 9109
 
-CMD ./dcrd -u user -P pass --notls --txindex --listen=127.0.0.1
+CMD ./dcrd --listen=127.0.0.1
