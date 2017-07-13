@@ -1,5 +1,5 @@
 #DOCKER_IMAGE_TAG=dcrd-mainnet-insight
-FROM decred/dcrd-mainnet-insight
+FROM decred/dcrd-mainnet
 
 LABEL description="Decred mainnet daemon (insight options)"
 LABEL version="1.0"
