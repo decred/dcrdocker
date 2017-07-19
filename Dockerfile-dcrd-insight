@@ -1,4 +1,7 @@
 #DOCKER_IMAGE_TAG=dcrd-mainnet-insight
+#mkdir .dcrd
+#docker run -d --network=host -P -v $(pwd)/.dcrd/:/home/decred/.dcrd/ decred/$DOCKER_IMAGE_TAG
+
 FROM decred/dcrd-mainnet
 
 LABEL description="Decred mainnet daemon (insight options)"

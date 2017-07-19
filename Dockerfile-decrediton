@@ -1,4 +1,8 @@
 #decrediton-builder
+# This image should be called from the script build-docker.sh in the
+# decred/decrediton repo.
+# ./build-docker.sh
+
 FROM ubuntu:trusty
 
 LABEL description="Decrediton builder image"

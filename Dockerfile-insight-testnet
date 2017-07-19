@@ -1,4 +1,7 @@
 #DOCKER_IMAGE_TAG=decred-insight-testnet
+#mkdir -p .insight
+#docker run -d --network=host -P -v $(pwd)/.insight/:/home/insight/.insight/ decred/$DOCKER_IMAGE_TAG
+
 FROM decred/decred-insight
 
 LABEL description="Decred testnet insight"
