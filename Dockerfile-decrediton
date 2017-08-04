@@ -20,7 +20,7 @@ RUN adduser --disabled-password --gecos ''  $USER
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-    apt-get install -qy build-essential python git curl
+    apt-get install -qy build-essential python git curl rpm
 
 # create directory for build artifacts, adjust user permissions
 RUN mkdir /release && \
