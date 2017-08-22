@@ -32,13 +32,14 @@ RUN mkdir /src && \
     mkdir -p /go/src/github.com/decred/dcrwallet && \
     mkdir -p /go/src/github.com/decred/dcrctl && \
     mkdir -p /go/src/github.com/decred/dcrrpcclient && \
-    chown -R $USER /go/src/github.com/decred
+    chown -R $USER /go/src
 
 # switch user
 USER $USER
 ENV HOME /home/$USER
 
 #Get deps
+ENV DEP_TAG v0.3.0
 ENV GLIDE_TAG v0.12.3
 ENV GOMETALINTER_TAG v1.2.1
 
@@ -52,4 +53,8 @@ RUN go get -v github.com/Masterminds/glide && \
     cd /go/src/github.com/alecthomas/gometalinter && \
     git checkout $GOMETALINTER_TAG && \
     go install && \
-    gometalinter --install
+    gometalinter --install && \
+    go get -v github.com/golang/dep && \
+    cd /go/src/github.com/golang/dep && \
+    git checkout $DEP_TAG && \
+    go install ./...
