@@ -9,7 +9,7 @@ LABEL version="1.0"
 LABEL maintainer "john@netpurgatory.com"
 
 ENV NODE_VERSION v0.10.40
-ENV INSIGHT_COMMIT=6bcc3def78cbd7316f5d9e33854338bb2f7e2fac
+ENV INSIGHT_COMMIT=739eb5e5d33bf2a491e1d346cb8430bd2540eba2
 
 ENV TERM linux
 ENV USER insight
