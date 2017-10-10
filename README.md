@@ -19,16 +19,17 @@ The decrediton builder image allows us to check the build and lint in travis and
 
 | Dockerfile | Image Name | Link | Description | pull command |
 | --- | --- | --- | --- | --- |
+|Dockerfile-1.7|decred-golang-builder-1.7|[docker hub](https://hub.docker.com/r/decred/decred-golang-builder-1.7/)|Build/test with go1.7.|docker pull decred/decred-golang-builder-1.7|
+|Dockerfile-1.8|decred-golang-builder-1.8|[docker hub](https://hub.docker.com/r/decred/decred-golang-builder-1.8/)|Build/test with go1.8.|docker pull decred/decred-golang-builder-1.8|
+|Dockerfile-1.9|decred-golang-builder-1.9|[docker hub](https://hub.docker.com/r/decred/decred-golang-builder-1.9/)|Build/test with go1.9.|docker pull decred/decred-golang-builder-1.9|
 |Dockerfile-dcrd|dcrd-mainnet|[docker hub](https://hub.docker.com/r/decred/dcrd-mainnet/)|Mainnet dcrd.|docker pull decred/dcrd-mainnet|
 |Dockerfile-dcrd-testnet|dcrd-testnet|[docker hub](https://hub.docker.com/r/decred/dcrd-testnet/)|Testnet dcrd.|docker pull decred/dcrd-testnet|
 |Dockerfile-dcrd-insight|dcrd-mainnet-insight|[docker hub](https://hub.docker.com/r/decred/dcrd-mainnet-insihght/)|Mainnet dcrd for insight use.|docker pull decred/dcrd-mainnet-insight|
 |Dockerfile-dcrd-testnet-insight|dcrd-testnet-insight|[docker hub](https://hub.docker.com/r/decred/dcrd-testnet-insight/)|Testnet dcrd for insight use.|docker pull decred/dcrd-testnet-insight|
+|Dockerfile-decrediton|decrediton-builder|[docker hub](https://hub.docker.com/r/decred/decrediton-builder/)|Builder image for decrediton|docker pull decred/decrediton-builder|
 |Dockerfile-insight|decred-insight|[docker hub](https://hub.docker.com/r/decred/decred-insight/)|Decred insight on mainnet.|docker pull decred/decred-insight|
 |Dockerfile-insight-testnet|decred-insight-testnet|[docker hub](https://hub.docker.com/r/decred/decred-insight-testnet/)|Decred insight on testnet.|docker pull decred/decred-insight-testnet|
-|Dockerfile-1.7|decred-golang-builder-1.7|[docker hub](https://hub.docker.com/r/decred/decred-golang-builder-1.7/)|Build/test with go1.7.|docker pull decred/decred-golang-builder-1.7|
-|Dockerfile-1.8|decred-golang-builder-1.8|[docker hub](https://hub.docker.com/r/decred/decred-golang-builder-1.8/)|Build/test with go1.8.|docker pull decred/decred-golang-builder-1.8|
-|Dockerfile-1.9|decred-golang-builder-1.9|[docker hub](https://hub.docker.com/r/decred/decred-golang-builder-1.9/)|Build/test with go1.9.|docker pull decred/decred-golang-builder-1.9|
-|Dockerfile-decrediton|decrediton-builder|[docker hub](https://hub.docker.com/r/decred/decrediton-builder/)|Builder image for decrediton|docker pull decred/decrediton-builder|
+|Dockerfile-slackinviter|decred-slackinviter|N/A|Slack Invitation Gateway| N/A |
 
 ## Building images
 

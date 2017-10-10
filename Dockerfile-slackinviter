@@ -1,0 +1,58 @@
+#DOCKER_IMAGE_TAG=decred/slackinviter
+#TODO
+# - install go 1.9 via golang.org tarball instead of the ubuntu ppa
+# - pass secrets in a better way
+#NOTES
+# - should be run with persistent storage so the csv file is preserved properly
+FROM ubuntu:xenial
+
+# this is intended to replace the node.js gateway currently running at
+# https://slack.decred.org/
+LABEL description="slackinviter"
+LABEL version="1.0"
+LABEL maintainer "jolan@decred.org"
+
+ENV PORT 3001
+ENV CAPTCHASITEKEY ""
+ENV CAPTCHASECRET ""
+ENV SLACKTOKEN ""
+
+ENV TERM linux
+ENV USER user
+ENV HOME /home/$USER
+ENV DOTSLACKINVITER $HOME/.slackinviter
+ENV GOPATH $HOME/go
+ENV WORKDIR $GOPATH/src/github.com/jolan/slackinviter
+ENV PATH="/usr/lib/go-1.9/bin:{$GOPATH}/bin:${PATH}"
+
+# create user
+RUN adduser --disabled-password --gecos '' $USER
+
+# pull security updates, add golang repo, setup and build
+RUN set -x && \
+    DEBIAN_FRONTEND=noninteractive && \
+    apt-get -y update && \
+    apt-get -y dist-upgrade && \
+    apt-get -y install git software-properties-common && \
+    add-apt-repository -y ppa:gophers/archive && \
+    apt-get -y update && \
+    apt-get -y install golang-1.9 && \
+    mkdir -p $DOTSLACKINVITER && \
+    git clone https://github.com/jolan/slackinviter $GOPATH/src/github.com/jolan/slackinviter && \
+    go get -u github.com/golang/dep/cmd/dep && \
+    cd $GOPATH/src/github.com/jolan/slackinviter && \
+    $GOPATH/bin/dep ensure -v && \
+    go install && \
+    chown -R $USER:$USER $HOME && \
+    apt-get -qy remove $BUILD_DEPS && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# switch user for runtime
+USER $USER
+WORKDIR $WORKDIR
+
+# WEB SERVICE PORT
+EXPOSE 3001
+
+CMD SLACKINVITER_DEBUG=1 SLACKINVITER_ENFORCEHTTPS=1 SLACKINVITER_CAPTCHASECRET="${CAPTCHASECRET}" SLACKINVITER_CAPTCHASITEKEY="${CAPTCHASITEKEY}" SLACKINVITER_SLACKTOKEN="${SLACKINVITER_SLACKTOKEN}" SLACKINVITER_PORT=${PORT} $GOPATH/bin/slackinviter
