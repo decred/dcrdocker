@@ -13,4 +13,4 @@ EXPOSE 19108
 # RPC PORT
 EXPOSE 19109
 
-CMD ./dcrd --testnet --listen=127.0.0.1
+CMD ./dcrd --testnet

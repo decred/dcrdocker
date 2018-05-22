@@ -8,7 +8,7 @@ LABEL description="Decred mainnet daemon"
 LABEL version="1.3"
 LABEL maintainer="john@netpurgatory.com"
 
-ENV DCR_RELEASE v1.1.0
+ENV DCR_RELEASE v1.2.0
 ENV TERM linux
 ENV USER decred
 ENV HOME /home/$USER
@@ -63,4 +63,4 @@ WORKDIR /home/$USER
 # PEER & RPC PORTS
 EXPOSE 9108 9109
 
-CMD ./dcrd --listen=127.0.0.1
+CMD ./dcrd
