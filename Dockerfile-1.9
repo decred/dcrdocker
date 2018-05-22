@@ -3,7 +3,7 @@
 # supported go repos.
 # ./run_tests.sh 1.9
 
-FROM golang:1.9
+FROM golang:1.9.4
 
 LABEL description="Decred golang builder image"
 LABEL version="1.0"
@@ -39,9 +39,9 @@ USER $USER
 ENV HOME /home/$USER
 
 #Get deps
-ENV DEP_TAG v0.3.1
-ENV GLIDE_TAG v0.12.3
-ENV GOMETALINTER_TAG v1.2.1
+ENV DEP_TAG v0.4.1
+ENV GLIDE_TAG v0.13.1
+ENV GOMETALINTER_TAG v2.0.5
 
 WORKDIR /go/src
 RUN go get -v github.com/Masterminds/glide && \
