@@ -1,13 +1,13 @@
-#decred-golang-builder-1.8
+#decred-golang-builder-1.10
 # This image may be called with the run_tests.sh script included in any of the
 # supported go repos.
-# ./run_tests.sh 1.8
+# ./run_tests.sh 1.10
 
-FROM golang:1.8
+FROM golang:1.10.2
 
 LABEL description="Decred golang builder image"
 LABEL version="1.0"
-LABEL maintainer "john@netpurgatory.com"
+LABEL maintainer "dhill@mindcry.org"
 
 ENV TERM linux
 ENV USER build
@@ -30,6 +30,8 @@ RUN mkdir /src && \
     chown $USER /src && \
     mkdir -p /go/src/github.com/decred/dcrd && \
     mkdir -p /go/src/github.com/decred/dcrwallet && \
+    mkdir -p /go/src/github.com/decred/dcrctl && \
+    mkdir -p /go/src/github.com/decred/dcrrpcclient && \
     chown -R $USER /go/src
 
 # switch user
@@ -38,10 +40,16 @@ ENV HOME /home/$USER
 
 #Get deps
 ENV DEP_TAG v0.4.1
+ENV GLIDE_TAG v0.13.1
 ENV GOMETALINTER_TAG v2.0.5
 
 WORKDIR /go/src
-RUN go get -v github.com/alecthomas/gometalinter && \
+RUN go get -v github.com/Masterminds/glide && \
+    cd /go/src/github.com/Masterminds/glide && \
+    git checkout $GLIDE_TAG && \
+    make build && \
+    mv glide `which glide` && \
+    go get -v github.com/alecthomas/gometalinter && \
     cd /go/src/github.com/alecthomas/gometalinter && \
     git checkout $GOMETALINTER_TAG && \
     go install && \
@@ -49,4 +57,4 @@ RUN go get -v github.com/alecthomas/gometalinter && \
     go get -v github.com/golang/dep && \
     cd /go/src/github.com/golang/dep && \
     git checkout $DEP_TAG && \
-    go install ./...
+    go install -i
