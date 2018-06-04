@@ -3,7 +3,7 @@ services:
   - docker
 
 script:
-  - docker build -t decred-golang-builder-1.8 -f Dockerfile-1.8 .
   - docker build -t decred-golang-builder-1.9 -f Dockerfile-1.9 .
+  - docker build -t decred-golang-builder-1.10 -f Dockerfile-1.10 .
   - docker build -t dcrd-mainnet -f Dockerfile-dcrd .
   - docker build -t dcrd-testnet -f Dockerfile-dcrd-testnet .
