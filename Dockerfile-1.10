@@ -1,13 +1,13 @@
-#decred-golang-builder-1.8
+#decred-golang-builder-1.10
 # This image may be called with the run_tests.sh script included in any of the
 # supported go repos.
-# ./run_tests.sh 1.8
+# ./run_tests.sh 1.10
 
-FROM golang:1.8
+FROM golang:1.10.2
 
 LABEL description="Decred golang builder image"
 LABEL version="1.0"
-LABEL maintainer "john@netpurgatory.com"
+LABEL maintainer "dhill@mindcry.org"
 
 ENV TERM linux
 ENV USER build
@@ -19,7 +19,7 @@ RUN adduser --disabled-password --gecos ''  $USER
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-    apt-get install -qy rsync
+    apt-get install -qy rsync git
 
 # create directory for build artifacts, adjust user permissions
 RUN mkdir /release && \
@@ -44,9 +44,9 @@ WORKDIR /go/src
 RUN go get -v github.com/alecthomas/gometalinter && \
     cd /go/src/github.com/alecthomas/gometalinter && \
     git checkout $GOMETALINTER_TAG && \
-    go install && \
+    go install -i && \
     gometalinter --install && \
     go get -v github.com/golang/dep && \
     cd /go/src/github.com/golang/dep && \
     git checkout $DEP_TAG && \
-    go install ./...
+    go install -i ./...
