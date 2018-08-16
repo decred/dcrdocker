@@ -1,9 +1,9 @@
-#decred-golang-builder-1.9
+#decred-golang-builder-1.11
 # This image may be called with the run_tests.sh script included in any of the
 # supported go repos.
-# ./run_tests.sh 1.9
+# ./run_tests.sh 1.11
 
-FROM golang:1.9.7
+FROM golang:1.11rc1
 
 LABEL description="Decred golang builder image"
 LABEL version="1.0"
@@ -44,9 +44,9 @@ WORKDIR /go/src
 RUN go get -v github.com/alecthomas/gometalinter && \
     cd /go/src/github.com/alecthomas/gometalinter && \
     git checkout $GOMETALINTER_TAG && \
-    go install && \
+    go install -i && \
     gometalinter --install && \
     go get -v github.com/golang/dep && \
     cd /go/src/github.com/golang/dep && \
     git checkout $DEP_TAG && \
-    go install ./...
+    go install -i ./...

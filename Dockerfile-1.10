@@ -3,7 +3,7 @@
 # supported go repos.
 # ./run_tests.sh 1.10
 
-FROM golang:1.10.2
+FROM golang:1.10.3
 
 LABEL description="Decred golang builder image"
 LABEL version="1.0"
@@ -19,7 +19,7 @@ RUN adduser --disabled-password --gecos ''  $USER
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-    apt-get install -qy rsync git
+    apt-get install -qy rsync git xz-utils
 
 # create directory for build artifacts, adjust user permissions
 RUN mkdir /release && \
@@ -41,7 +41,8 @@ ENV DEP_TAG v0.4.1
 ENV GOMETALINTER_TAG v2.0.5
 
 WORKDIR /go/src
-RUN go get -v github.com/alecthomas/gometalinter && \
+RUN go get -u -v golang.org/x/vgo && \
+    go get -v github.com/alecthomas/gometalinter && \
     cd /go/src/github.com/alecthomas/gometalinter && \
     git checkout $GOMETALINTER_TAG && \
     go install -i && \
