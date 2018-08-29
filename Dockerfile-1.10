@@ -3,7 +3,7 @@
 # supported go repos.
 # ./run_tests.sh 1.10
 
-FROM golang:1.10.3
+FROM golang:1.10.4
 
 LABEL description="Decred golang builder image"
 LABEL version="1.0"
