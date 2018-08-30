@@ -21,9 +21,9 @@ RUN set -x && \
 
     # Update base distro & install build tooling
     DEBIAN_FRONTEND=noninteractive && \
-    BUILD_DEPS=curl && \
+    BUILD_DEPS="" && \
     apt-get update && \
-    apt-get install -qy $BUILD_DEPS && \
+    apt-get install -qy curl $BUILD_DEPS && \
 
     # Decred release url and files
     DCR_RELEASE_URL="https://github.com/decred/decred-binaries/releases/download/$DCR_RELEASE" && \
