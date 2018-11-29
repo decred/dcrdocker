@@ -3,10 +3,10 @@
 # supported go repos.
 # ./run_tests.sh 1.11
 
-FROM golang:1.11
+FROM golang:1.11.2
 
 LABEL description="Decred golang builder image"
-LABEL version="1.0"
+LABEL version="1.1"
 LABEL maintainer "dhill@mindcry.org"
 
 ENV TERM linux
@@ -18,8 +18,20 @@ RUN adduser --disabled-password --gecos ''  $USER
 # update base distro & install build tooling
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN apt-get update && apt-get install -qy apt-transport-https ca-certificates
+
+ENV NODE_VERSION node_11.x
+
+RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
+    DISTRO=`grep VERSION= /etc/os-release | awk -F"[()]" '{print $2}'` && \
+    echo "deb https://deb.nodesource.com/$NODE_VERSION $DISTRO main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    echo "deb-src https://deb.nodesource.com/$NODE_VERSION $DISTRO main" | tee -a /etc/apt/sources.list.d/nodesource.list
+
 RUN apt-get update && \
-    apt-get install -qy rsync git xz-utils
+    apt-get install -qy rsync git xz-utils apt-utils nodejs && \
+    echo Node.js: `node --version`
+
+RUN npm install stylelint stylelint-config-standard eslint -g
 
 # create directory for build artifacts, adjust user permissions
 RUN mkdir /release && \
@@ -39,9 +51,13 @@ ENV HOME /home/$USER
 #Get deps
 ENV DEP_TAG v0.4.1
 ENV GOMETALINTER_TAG v2.0.5
+ENV GOLANGCI_TAG v1.12.3
 
 WORKDIR /go/src
-RUN go get -v github.com/alecthomas/gometalinter && \
+    RUN git clone --branch $GOLANGCI_TAG https://github.com/golangci/golangci-lint && \
+    cd golangci-lint/cmd/golangci-lint && \
+    GO111MODULE=on go install && \
+    go get -v github.com/alecthomas/gometalinter && \
     cd /go/src/github.com/alecthomas/gometalinter && \
     git checkout $GOMETALINTER_TAG && \
     go install -i && \
