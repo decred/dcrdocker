@@ -18,20 +18,8 @@ RUN adduser --disabled-password --gecos ''  $USER
 # update base distro & install build tooling
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -qy apt-transport-https ca-certificates
-
-ENV NODE_VERSION node_11.x
-
-RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
-    DISTRO=`grep VERSION= /etc/os-release | awk -F"[()]" '{print $2}'` && \
-    echo "deb https://deb.nodesource.com/$NODE_VERSION $DISTRO main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    echo "deb-src https://deb.nodesource.com/$NODE_VERSION $DISTRO main" | tee -a /etc/apt/sources.list.d/nodesource.list
-
 RUN apt-get update && \
-    apt-get install -qy rsync git xz-utils apt-utils nodejs && \
-    echo Node.js: `node --version`
-
-RUN npm install stylelint stylelint-config-standard eslint -g
+    apt-get install -qy rsync git xz-utils
 
 # create directory for build artifacts, adjust user permissions
 RUN mkdir /release && \
