@@ -3,10 +3,10 @@
 # supported go repos.
 # ./run_tests.sh 1.11
 
-FROM golang:1.11
+FROM golang:1.11.2
 
 LABEL description="Decred golang builder image"
-LABEL version="1.0"
+LABEL version="1.1"
 LABEL maintainer "dhill@mindcry.org"
 
 ENV TERM linux
@@ -39,9 +39,13 @@ ENV HOME /home/$USER
 #Get deps
 ENV DEP_TAG v0.4.1
 ENV GOMETALINTER_TAG v2.0.5
+ENV GOLANGCI_TAG v1.12.3
 
 WORKDIR /go/src
-RUN go get -v github.com/alecthomas/gometalinter && \
+    RUN git clone --branch $GOLANGCI_TAG https://github.com/golangci/golangci-lint && \
+    cd golangci-lint/cmd/golangci-lint && \
+    GO111MODULE=on go install && \
+    go get -v github.com/alecthomas/gometalinter && \
     cd /go/src/github.com/alecthomas/gometalinter && \
     git checkout $GOMETALINTER_TAG && \
     go install -i && \
