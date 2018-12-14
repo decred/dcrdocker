@@ -3,7 +3,7 @@
 # supported go repos.
 # ./run_tests.sh 1.10
 
-FROM golang:1.10.4
+FROM golang:1.10.7
 
 LABEL description="Decred golang builder image"
 LABEL version="1.0"
@@ -28,8 +28,7 @@ RUN mkdir /release && \
 # create directory to get source from
 RUN mkdir /src && \
     chown $USER /src && \
-    mkdir -p /go/src/github.com/decred/dcrd && \
-    mkdir -p /go/src/github.com/decred/dcrwallet && \
+    mkdir -p /go/src/github.com/decred && \
     chown -R $USER /go/src
 
 # switch user

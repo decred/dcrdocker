@@ -3,7 +3,7 @@
 # supported go repos.
 # ./run_tests.sh 1.11
 
-FROM golang:1.11.2
+FROM golang:1.11.4
 
 LABEL description="Decred golang builder image"
 LABEL version="1.1"
@@ -28,8 +28,7 @@ RUN mkdir /release && \
 # create directory to get source from
 RUN mkdir /src && \
     chown $USER /src && \
-    mkdir -p /go/src/github.com/decred/dcrd && \
-    mkdir -p /go/src/github.com/decred/dcrwallet && \
+    mkdir -p /go/src/github.com/decred && \
     chown -R $USER /go/src
 
 # switch user
@@ -39,12 +38,11 @@ ENV HOME /home/$USER
 #Get deps
 ENV DEP_TAG v0.4.1
 ENV GOMETALINTER_TAG v2.0.5
-ENV GOLANGCI_TAG v1.12.3
+ENV GOLANGCI_TAG v1.12.5
 
 WORKDIR /go/src
     RUN git clone --branch $GOLANGCI_TAG https://github.com/golangci/golangci-lint && \
-    cd golangci-lint/cmd/golangci-lint && \
-    GO111MODULE=on go install && \
+    cd golangci-lint/cmd/golangci-lint && go install && \
     go get -v github.com/alecthomas/gometalinter && \
     cd /go/src/github.com/alecthomas/gometalinter && \
     git checkout $GOMETALINTER_TAG && \

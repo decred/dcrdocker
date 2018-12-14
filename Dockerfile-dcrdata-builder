@@ -2,7 +2,7 @@
 # This image may be used to build and test dcrdata with run_tests.sh:
 # ./run_tests.sh 1.11
 
-FROM golang:1.11.2
+FROM golang:1.11.4
 
 LABEL description="Decred dcrdata builder image"
 LABEL version="1.0"
@@ -39,6 +39,7 @@ RUN mkdir /release && \
 # create directory to get source from
 RUN mkdir /src && \
     chown $USER /src && \
+    mkdir -p /go/src/github.com/decred && \
     chown -R $USER /go/src
 
 # switch user
@@ -47,7 +48,7 @@ ENV HOME /home/$USER
 
 # Install linters
 ENV GOMETALINTER_TAG v2.0.5
-ENV GOLANGCI_TAG v1.12.3
+ENV GOLANGCI_TAG v1.12.5
 
 WORKDIR /go/src
     RUN git clone --branch $GOLANGCI_TAG https://github.com/golangci/golangci-lint && \
