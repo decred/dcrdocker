@@ -2,7 +2,7 @@
 # This image may be used to build and test dcrdata with run_tests.sh:
 # ./run_tests.sh 1.11
 
-FROM golang:1.11.5
+FROM golang:1.12.4
 
 LABEL description="Decred dcrdata builder image"
 LABEL version="1.0"
@@ -19,7 +19,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -qy apt-transport-https ca-certificates
 
-ENV NODE_VERSION node_11.x
+ENV NODE_VERSION node_12.x
 
 RUN curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
     DISTRO=`grep VERSION= /etc/os-release | awk -F"[()]" '{print $2}'` && \
@@ -47,15 +47,9 @@ USER $USER
 ENV HOME /home/$USER
 
 # Install linters
-ENV GOMETALINTER_TAG v2.0.5
-ENV GOLANGCI_TAG v1.13.1
+ENV GOLANGCI_TAG v1.16.0
 
 WORKDIR /go/src
     RUN git clone --branch $GOLANGCI_TAG https://github.com/golangci/golangci-lint && \
     cd golangci-lint/cmd/golangci-lint && \
-    GO111MODULE=on go install && \
-    go get -v github.com/alecthomas/gometalinter && \
-    cd /go/src/github.com/alecthomas/gometalinter && \
-    git checkout $GOMETALINTER_TAG && \
-    go install -i && \
-    gometalinter --install
+    GO111MODULE=on go install
