@@ -3,5 +3,5 @@ services:
   - docker
 
 script:
-  - docker build -t decred-golang-builder-1.10 -f Dockerfile-1.10 .
   - docker build -t decred-golang-builder-1.11 -f Dockerfile-1.11 .
+  - docker build -t decred-golang-builder-1.12 -f Dockerfile-1.12 .

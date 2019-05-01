@@ -25,8 +25,8 @@ The decrediton builder image allows us to check the build and lint in travis and
 |Dockerfile-dcrd-testnet-insight|dcrd-testnet-insight|[docker hub](https://hub.docker.com/r/decred/dcrd-testnet-insight/)|Testnet dcrd for insight use.|docker pull decred/dcrd-testnet-insight|
 |Dockerfile-insight|decred-insight|[docker hub](https://hub.docker.com/r/decred/decred-insight/)|Decred insight on mainnet.|docker pull decred/decred-insight|
 |Dockerfile-insight-testnet|decred-insight-testnet|[docker hub](https://hub.docker.com/r/decred/decred-insight-testnet/)|Decred insight on testnet.|docker pull decred/decred-insight-testnet|
-|Dockerfile-1.10|decred-golang-builder-1.10|[docker hub](https://hub.docker.com/r/decred/decred-golang-builder-1.10/)|Build/test with go1.10.|docker pull decred/decred-golang-builder-1.10|
 |Dockerfile-1.11|decred-golang-builder-1.11|[docker hub](https://hub.docker.com/r/decred/decred-golang-builder-1.11/)|Build/test with go1.11.|docker pull decred/decred-golang-builder-1.11|
+|Dockerfile-1.12|decred-golang-builder-1.12|[docker hub](https://hub.docker.com/r/decred/decred-golang-builder-1.12/)|Build/test with go1.12.|docker pull decred/decred-golang-builder-1.12|
 |Dockerfile-decrediton|decrediton-builder|[docker hub](https://hub.docker.com/r/decred/decrediton-builder/)|Builder image for decrediton|docker pull decred/decrediton-builder|
 
 ## Building images
